@@ -1,10 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
-	"io"
 	"log"
 	"net"
+	"time"
 )
 
 func main() {
@@ -19,11 +20,21 @@ func main() {
 		if err != nil {
 			log.Println(err)
 		}
-
-		io.WriteString(conn, "\n Hello from the tcp server\n")
-		fmt.Fprintf(conn, "How is your day\n")
-		fmt.Fprintf(conn, "%v", "Well, I hope.")
-		conn.Close()
+		go handle(conn)
 	}
+}
 
+func handle(conn net.Conn) {
+	// Inorder to set a timeout on the connection we add a timer to the conn.
+	err := conn.SetDeadline(time.Now().Add(10 * time.Second))
+	if err != nil {
+		log.Println("Connection Timed Out")
+	}
+	scanner := bufio.NewScanner(conn)
+	for scanner.Scan() {
+		ln := scanner.Text()
+		fmt.Println(ln)
+		fmt.Fprintf(conn, "I hear you say %s\n", ln)
+	}
+	defer conn.Close()
 }
