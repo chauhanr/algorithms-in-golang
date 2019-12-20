@@ -9,17 +9,17 @@ import (
 
 func main() {
 	http.HandleFunc("/", dog)
-	http.HandleFunc("/dew", dogPicServe)
+	http.HandleFunc("/dew", dogPicServeFile)
 	http.ListenAndServe(":9090", nil)
 }
 
 func dog(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	io.WriteString(w, `<img src="dew.jpg">`)
+	io.WriteString(w, `<img src="images/dew.jpg">`)
 }
 
 func dogPicServe(w http.ResponseWriter, r *http.Request) {
-	f, err := os.Open("./dew.jpg")
+	f, err := os.Open("dew.jpg")
 	if err != nil {
 		fmt.Printf("Error reading file: %s\n", err)
 		http.Error(w, "file not found", 404)
@@ -29,4 +29,8 @@ func dogPicServe(w http.ResponseWriter, r *http.Request) {
 	defer f.Close()
 	io.Copy(w, f)
 
+}
+
+func dogPicServeFile(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "images/dew.jpg")
 }
