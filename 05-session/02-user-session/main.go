@@ -12,6 +12,7 @@ type User struct {
 	First    string
 	Last     string
 	Username string
+	Password string
 }
 
 var dbUsers = map[string]User{}
@@ -21,7 +22,8 @@ func main() {
 	// localhost:9090/foo?first=ritesh&last=chauhan
 	http.HandleFunc("/foo", foo)
 	http.HandleFunc("/bar", bar)
-
+	//localhost:9090/signup?first=ritesh&last=chauhan&uname=chauhr&pass=pass
+	http.HandleFunc("/signup", signup)
 	http.ListenAndServe(":9090", nil)
 }
 
@@ -57,6 +59,44 @@ func foo(w http.ResponseWriter, r *http.Request) {
 	}
 	dbSessions[c.Value] = uname
 	dbUsers[uname] = u
+}
+
+func signup(w http.ResponseWriter, r *http.Request) {
+	if alreadyLoggedIn(r) {
+		io.WriteString(w, "You are already logged in.\n")
+		return
+	}
+	p := r.FormValue("pass")
+	un := r.FormValue("username")
+	f := r.FormValue("first")
+	l := r.FormValue("last")
+
+	if _, ok := dbUsers[un]; ok {
+		http.Error(w, "username already taken", http.StatusForbidden)
+		return
+	}
+	id, err := uuid.NewV4()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	c := &http.Cookie{
+		Name:  "session",
+		Value: id.String(),
+	}
+	http.SetCookie(w, c)
+	dbSessions[c.Value] = un
+
+	u := User{
+		First:    f,
+		Last:     l,
+		Username: un,
+		Password: p,
+	}
+
+	dbUsers[un] = u
+	http.Redirect(w, r, "/bar", http.StatusSeeOther)
+
 }
 
 func bar(w http.ResponseWriter, r *http.Request) {
