@@ -91,4 +91,40 @@ type Context interface{
 Context can not only be used in the context of web apps (although it has good amount of applications
 there however it canbe used in ohter use cases as well. 
 
+## JSON and Go 
 
+There are two ways we can convert Go structures to Json and vice versa: 
+1. Marshall - is used when you want to take a Go structure and covert it to json and assign it to a
+   variable marshall package will be the one to use. 
+2. Encoding - when you want to take a Go structure convert it to json and send it over a wire
+   (network) encoding is what is needed. 
+
+Marshal
+```
+p := person{
+    "James", 
+    "Bond",  
+     []string{"Suit", "Gun", "Martini"}, 
+}
+
+ pb, err := json.Marshal(p) // returns a array of bytes that is json
+  if err != nil {
+    log.Printf("%s\n", err) 
+  }
+  w.Write(pb) 
+
+```
+
+```
+p := person{
+    "James", 
+    "Bond",  
+     []string{"Suit", "Gun", "Martini"}, 
+}
+
+err := json.NewEncoder(w).Encode(p) 
+if err != nil {
+    log.Println(err) 
+}
+
+```
