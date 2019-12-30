@@ -44,5 +44,6 @@ func getSession() *mgo.Session{
 
 ```
 
-
- 
+## MongoDB concepts 
+* [Databases, Collections & Documents](02-mongo-databases/Readme.md) 
+* [Query](02-mongo-databases/2-momgo-query.md)  
