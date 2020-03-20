@@ -117,5 +117,3 @@ toggle 0, 1>)`
 * `db.customers.find({},{_id:0, name:1,age: 1, })`
 * `db.customers.find({age: {"$gt:35"}},{_id:0, name:1,age: 1, })`
 
-
-
