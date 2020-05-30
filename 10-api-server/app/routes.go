@@ -10,7 +10,7 @@ func (s *Server) ApiRoutes() {
 	var api = s.Router.PathPrefix("/api").Subrouter()
 	api.NotFoundHandler = http.HandlerFunc(handlers.NotFoundHandler)
 	s.apiV1Routes(api)
-	s.apiV2Routes(api)
+	s.apiV1alphaRoutes(api)
 }
 
 func (s *Server) apiV1Routes(subRouter *mux.Router) {
@@ -19,8 +19,8 @@ func (s *Server) apiV1Routes(subRouter *mux.Router) {
 	api.HandleFunc("/status", handlers.StatusV1)
 }
 
-func (s *Server) apiV2Routes(subRouter *mux.Router) {
-	var api = subRouter.PathPrefix("/v2").Subrouter()
+func (s *Server) apiV1alphaRoutes(subRouter *mux.Router) {
+	var api = subRouter.PathPrefix("/v2alpha").Subrouter()
 	api.NotFoundHandler = http.HandlerFunc(handlers.NotFoundHandler)
-	api.HandleFunc("/status", handlers.StatusV2)
+	api.HandleFunc("/status", handlers.StatusV1alpha)
 }
