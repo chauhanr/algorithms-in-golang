@@ -1,5 +1,11 @@
 package scheme
 
+/**
+This is the master scheme that will hold master copy of the configurations
+This is what will be persisted to the etcd and will be transformed based on
+which version is being used.
+*/
+
 type Pod struct {
 	ApiVersion string    `yaml:"apiVerion"`
 	Kind       string    `yaml:"Kind"`
@@ -16,7 +22,7 @@ type PodStatus struct {
 	StartTime      time.Time         `yaml:"startTime"`
 	Reason         string            `yaml:"reason"`
 	Message        string            `yaml:"message"`
-	ContainerStaus ContainerStatusV1 `yaml:"containerStatus"`
+	ContainerStaus ContainerStatusV1 `yaml:"ContainerStatus"`
 }
 
 type ContainerStatus struct {

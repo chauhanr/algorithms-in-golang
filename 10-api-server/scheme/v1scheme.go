@@ -16,7 +16,7 @@ type PodStatusV1 struct {
 	StartTime      time.Time         `yaml:"startTime"`
 	Reason         string            `yaml:"reason"`
 	Message        string            `yaml:"message"`
-	ContainerStaus ContainerStatusV1 `yaml:"containerStatus"`
+	ContainerStaus ContainerStatusV1 `yaml:"ContainerStatus"`
 }
 
 type ContainerStatusV1 struct {
