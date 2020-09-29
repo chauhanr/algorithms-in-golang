@@ -34,3 +34,11 @@ following command:
 ```
 $ go mod tidy
 ```
+
+### Replace repo in go.mod 
+If we have a forked repo and you want to fix a bug on the repo and not wait for the pull request to
+be accepted we can replace the repo form the original url to the forked url 
+
+```
+go mod edit -replace=github.com/xyz/golang-web=github.com/chauhanr/golang-web  # replaces the go.mod
+```
