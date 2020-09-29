@@ -18,6 +18,19 @@ Each time there is a package imported in your code that has a go.mod it will be 
 project's go.mod with a version. Another file `go.sum` is also added to the root folder of the
 package that holds the hashes of the package that you have downloaded and using. 
 
+To list all the modules used by a golang project we can use the following command: 
+```
+$ go list -m all 
+```
+In order to get the modules latest or a specific version we can use the following commands.
+```
+$ go get golang.org/x/test    # gets the latest tagged version of the test module from git repo 
 
+$ go get rsc.io/sampler@v1.3.1  # gets this specific version of the package in question.  
+```
+In order to get rid of modules and packages that are no longer used in the go.mod we can run the
+following command: 
 
-
+```
+$ go mod tidy
+```
